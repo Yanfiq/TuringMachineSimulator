@@ -3,8 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Turing Machine Visualization</title>
+    <link rel="stylesheet" href="style/styles.css">
 </head>
 <body>
-    <p>Turing Machine</p>
+    <h1>Turing Machine Visualization</h1>
+    <div class="machine">
+        
+    </div>
+    <form class="initial-value">
+        <div>
+            <label for="m">m</label>
+            <input type="number" class="input-field" name="m" required>
+        </div>
+        <div>
+            <label for="n">n</label>
+            <input type="number" class="input-field" name="n" required>
+        </div>
+        <div>
+            <label for="a">a</label>
+            <input type="number" class="input-field" name="a" required>
+        </div>
+        <div>
+            <label for="b">b</label>
+            <input type="number" class="input-field" name="b" required>
+        </div>
+        <input type="submit" value="Initialize">
+    </form> 
+    <div class="controls">
+        <button>Run</button>
+    </div>
+    <p id="status"></p>
+    <script src="script/script.js"></script>
+</body>
 </html>
