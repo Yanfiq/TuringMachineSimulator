@@ -1,6 +1,5 @@
 export class Symbol {
     constructor(value, position) {
-        this.value = value;
         this.position = position;
         this.active = false;
         this.symbolElement = document.createElement('div');
@@ -12,6 +11,12 @@ export class Symbol {
     }
     getPosition() {
         return this.position;
+    }
+    getValue() {
+        return this.symbolElement.innerText;
+    }
+    setValue(newValue) {
+        this.symbolElement.innerText = newValue;
     }
     activate() {
         this.symbolElement.className = 'symbol-active';

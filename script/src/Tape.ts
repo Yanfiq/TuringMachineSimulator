@@ -1,7 +1,7 @@
 import { Symbol } from "./Symbol.js";
 
 export class Tape {
-    private memory: Map<number, string>;
+    private memory: Map<number, Symbol>;
     private tape_visual: HTMLElement;
     private storage: string;
     private headPosition: number;
@@ -14,18 +14,20 @@ export class Tape {
         this.headPosition = 0;
         this.storage = 'B';
 
-        this.memory.set(-1, 'B');
         let front: Symbol = new Symbol('B', -1);
+        this.memory.set(-1, front);
         this.tape_visual.appendChild(front.getElement());
 
         [...rawInput].forEach((char, index) =>{
-            this.memory.set(index, char);
             let symbol: Symbol = new Symbol(char, index);    
+            this.memory.set(index, symbol);
             if(index==0) {symbol.activate();}
             this.tape_visual.appendChild(symbol.getElement());
         })
-        this.memory.set(rawInput.length+1, 'B');
-        let back: Symbol = new Symbol('B', rawInput.length+1);
+        
+        let back: Symbol = new Symbol('B', rawInput.length);
+        this.memory.set(rawInput.length, back);
+        console.log(this.memory)
         this.tape_visual.appendChild(back.getElement());
     }
 
@@ -37,12 +39,12 @@ export class Tape {
         return this.headPosition;
     }
 
-    getPointedValue(): string | undefined{
-        return this.memory.get(this.headPosition);
+    getPointedValue(): string{
+        return this.memory.get(this.headPosition)?.getValue() ?? 'B';
     }
 
     changeValue(newValue: string): void{
-        this.memory.set(this.headPosition, newValue);
+        this.memory.get(this.headPosition)?.setValue(newValue);
     }
 
     setStorageValue(newValue: string): void{
@@ -54,10 +56,14 @@ export class Tape {
     }
 
     moveRight(): void{
+        this.memory.get(this.headPosition)?.deactivate()
         this.headPosition+=1;
+        this.memory.get(this.headPosition)?.activate()
     }
 
     moveLeft(): void{
+        this.memory.get(this.headPosition)?.deactivate()
         this.headPosition-=1;
+        this.memory.get(this.headPosition)?.activate()
     }
 }

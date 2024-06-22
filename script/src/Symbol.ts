@@ -1,11 +1,9 @@
 export class Symbol {
-    private value: string;
     private position: number;
     private active: boolean;
     private symbolElement: HTMLElement;
 
     constructor(value: string, position: number){
-        this.value = value;
         this.position = position;
         this.active = false;
 
@@ -20,6 +18,14 @@ export class Symbol {
 
     getPosition(): number{
         return this.position;
+    }
+
+    getValue(): string{
+        return this.symbolElement.innerText
+    }
+
+    setValue(newValue: string){
+        this.symbolElement.innerText = newValue;
     }
 
     activate(){
