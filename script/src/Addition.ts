@@ -6,10 +6,9 @@ export class Addition {
     private diagram: Diagram;
     private tape: Tape;
     private intervalId: any;
-    private result: number;
+    private result?: number;
     
     constructor(m: number, n: number){
-        this.result = 0;
         const q0: State = new State('q0', false);
         const q1: State = new State('q1', false);
         const q2: State = new State('q2', false);
@@ -53,6 +52,7 @@ export class Addition {
                 }
             } else {
                 if(currentState.isAccept()){
+                    this.result = 0;
                     let tapeElement = this.tape.getHtmlElement()
                     let tapeChild = tapeElement.childNodes
                     for(let i=0; i<tapeChild.length; i++){
@@ -70,5 +70,9 @@ export class Addition {
             this.intervalId = null;
             console.log("Turing machine stopped");
         }
+    }
+
+    getResult(): number | undefined{
+        return this.result
     }
 }

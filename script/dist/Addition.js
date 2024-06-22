@@ -4,7 +4,6 @@ import { Tape } from "./Tape.js";
 export class Addition {
     constructor(m, n) {
         var _a;
-        this.result = 0;
         const q0 = new State('q0', false);
         const q1 = new State('q1', false);
         const q2 = new State('q2', false);
@@ -46,6 +45,7 @@ export class Addition {
             }
             else {
                 if (currentState.isAccept()) {
+                    this.result = 0;
                     let tapeElement = this.tape.getHtmlElement();
                     let tapeChild = tapeElement.childNodes;
                     for (let i = 0; i < tapeChild.length; i++) {
@@ -62,5 +62,8 @@ export class Addition {
             this.intervalId = null;
             console.log("Turing machine stopped");
         }
+    }
+    getResult() {
+        return this.result;
     }
 }
