@@ -48,6 +48,16 @@ button {
     flex-direction: column;   
 }
 
+.track-active {
+    display: flex;
+    flex-direction: row;
+}
+
+.track-inactive {
+    display: flex;
+    flex-direction: row;
+}
+
 .symbol-active {
     width: 2rem;
     height: 3rem;
@@ -59,6 +69,7 @@ button {
     border-color: hsl(197, 100%, 50%);
     border-width: 0.1rem;
     border-style: solid;
+    margin: 0.15rem;
 }
 
 .symbol-inactive {
@@ -73,4 +84,5 @@ button {
     border-width: 0.1rem;
     border-style: solid;
     color: hsl(197, 100%, 50%);
+    margin: 0.15rem;
 }
