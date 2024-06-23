@@ -58,7 +58,6 @@ export class Exponentiation {
         (_c = document.querySelector('.machine')) === null || _c === void 0 ? void 0 : _c.appendChild(this.tape_result.getHtmlElement());
     }
     run() {
-        console.log("run");
         let currentState = this.diagram.getStartState();
         this.intervalId = setInterval(() => {
             console.log(currentState);
@@ -85,13 +84,12 @@ export class Exponentiation {
                 }
                 this.stop();
             }
-        }, 1);
+        }, 200);
     }
     stop() {
         if (this.intervalId !== null) {
             clearInterval(this.intervalId);
             this.intervalId = null;
-            console.log("Turing machine stopped, result=" + this.result);
         }
     }
     getResult() {

@@ -27,7 +27,6 @@ export class Addition {
         (_a = document.querySelector('.machine')) === null || _a === void 0 ? void 0 : _a.appendChild(this.tape.getHtmlElement());
     }
     run() {
-        console.log("run");
         let currentState = this.diagram.getStartState();
         this.intervalId = setInterval(() => {
             let nextState = currentState.getNextState(this.tape.getPointedValue());
@@ -54,13 +53,12 @@ export class Addition {
                 }
                 this.stop();
             }
-        }, 500);
+        }, 200);
     }
     stop() {
         if (this.intervalId !== null) {
             clearInterval(this.intervalId);
             this.intervalId = null;
-            console.log("Turing machine stopped");
         }
     }
     getResult() {

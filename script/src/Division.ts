@@ -17,6 +17,7 @@ export class Division {
         const q3: State = new State('q3', false);
         const q4: State = new State('q4', false);
         const q5: State = new State('q5', false);
+        const q6: State = new State('q6', true);
             
         q0.addTransition({inputSymbol: '0BB', writeSymbol: '0BB', direction: 'RSS', nextState: q0});
         q0.addTransition({inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q1});
@@ -29,7 +30,8 @@ export class Division {
         q2.addTransition({inputSymbol: 'BBB', writeSymbol: 'BBB', direction: 'RRS', nextState: q3});
         q3.addTransition({inputSymbol: '00B', writeSymbol: 'X0B', direction: 'RRS', nextState: q3});
         q3.addTransition({inputSymbol: '0BB', writeSymbol: '0B0', direction: 'SLR', nextState: q4});
-        q3.addTransition({inputSymbol: '1BB', writeSymbol: '1B0', direction: 'SSR', nextState: q4});    
+        q3.addTransition({inputSymbol: '1BB', writeSymbol: '1B0', direction: 'SSS', nextState: q6});    
+        q3.addTransition({inputSymbol: '10B', writeSymbol: '10B', direction: 'SSS', nextState: q6});   
         q4.addTransition({inputSymbol: '00B', writeSymbol: '00B', direction: 'SLS', nextState: q4});
         q4.addTransition({inputSymbol: '0BB', writeSymbol: '0BB', direction: 'SRS', nextState: q5});
         q5.addTransition({inputSymbol: '00B', writeSymbol: 'X0B', direction: 'RRS', nextState: q3});
@@ -77,17 +79,17 @@ export class Division {
                     for(let i=0; i<tapeChild.length; i++){
                         this.result += (<HTMLElement> tapeChild[i]).innerText == "0" ? 1:0;
                     }
+                    console.log(this.result);
                 }
                 this.stop();
             }
-        }, 500);
+        }, 200);
     }
 
     stop() {
         if (this.intervalId !== null) {
             clearInterval(this.intervalId);
             this.intervalId = null;
-            console.log("Turing machine stopped");
         }
     }
 

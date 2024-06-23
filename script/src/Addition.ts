@@ -6,7 +6,7 @@ export class Addition {
     private diagram: Diagram;
     private tape: Tape;
     private intervalId: any;
-    private result?: number;
+    result?: number;
     
     constructor(m: number, n: number){
         const q0: State = new State('q0', false);
@@ -35,8 +35,7 @@ export class Addition {
         document.querySelector('.machine')?.appendChild(this.tape.getHtmlElement());
     }
 
-    run() {
-        console.log("run");
+    run(){
         let currentState: State = this.diagram.getStartState();
         this.intervalId = setInterval(() => {
             let nextState = currentState.getNextState(this.tape.getPointedValue());
@@ -61,14 +60,13 @@ export class Addition {
                 }
                 this.stop();
             }
-        }, 500);
+        }, 200);
     }
 
     stop() {
         if (this.intervalId !== null) {
             clearInterval(this.intervalId);
             this.intervalId = null;
-            console.log("Turing machine stopped");
         }
     }
 

@@ -1,25 +1,17 @@
-import { Addition } from './Addition.js';
-import { Division } from './Division.js';
-import { Exponentiation } from './Exponentiation.js';
+import { TuringMachineController } from "./TuringMachineController.js";
 
-let form = document.querySelector('.initial-value');
-let addition: Addition;
-let exponent: Exponentiation;
-let division: Division;
+let form = document.querySelector('.input-form');
+let m: number;
+let n: number;
+let a: number;
+let b: number;
 
 form?.addEventListener('submit', function(event) {
     event.preventDefault();
-    const m: number = parseInt((<HTMLInputElement>document.querySelector('[name="m"]')).value);
-    const n: number = parseInt((<HTMLInputElement>document.querySelector('[name="n"]')).value);
-    division = new Division(m, n);
-    console.log("Addition instance created:", division);
-});
-
-document.querySelector('#run-button')?.addEventListener('click', function () {
-    if (division) {
-        console.log("Run method called");
-        division.run();
-    } else {
-        console.error("Addition instance is not defined. Please submit the form first.");
-    }
+    m = parseInt((<HTMLInputElement>document.querySelector('[name="m"]')).value);
+    n = parseInt((<HTMLInputElement>document.querySelector('[name="n"]')).value);
+    a = parseInt((<HTMLInputElement>document.querySelector('[name="a"]')).value);
+    b = parseInt((<HTMLInputElement>document.querySelector('[name="b"]')).value);
+    const controller = new TuringMachineController(m, n, a, b);
+    controller.run();
 });

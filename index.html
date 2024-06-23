@@ -7,33 +7,38 @@
     <link rel="stylesheet" href="style/styles.css">
 </head>
 <body>
-    <h1>Turing Machine Visualization</h1>
-    <div class="machine">
-        
-    </div>
-    <form class="initial-value">
-        <div>
-            <label for="m">m</label>
-            <input type="number" class="input-field" name="m" required>
+    <header>
+        <h1>
+            Turing Machine Simulator
+        </h1>
+    </header>
+    <main>
+        <img id="equation-image" src="equation.png">
+        <form class="input-form">
+            <h4>Enter the variables</h4>
+            <div class="input-component">
+                <label for="m">m</label>
+                <input type="number" class="input-field" name="m" required>
+            </div>
+            <div class="input-component">
+                <label for="n">n</label>
+                <input type="number" class="input-field" name="n" required>
+            </div>
+            <div class="input-component">
+                <label for="a">a</label>
+                <input type="number" class="input-field" name="a" required>
+            </div>
+            <div class="input-component">
+                <label for="b">b</label>
+                <input type="number" class="input-field" name="b" required>
+            </div>
+            <input type="submit" id="submit-btn" value="Initialize">
+        </form> 
+        <div class="machine">
+            
         </div>
-        <div>
-            <label for="n">n</label>
-            <input type="number" class="input-field" name="n" required>
-        </div>
-        <div>
-            <label for="a">a</label>
-            <input type="number" class="input-field" name="a" required>
-        </div>
-        <div>
-            <label for="b">b</label>
-            <input type="number" class="input-field" name="b" required>
-        </div>
-        <input type="submit" value="Initialize">
-    </form> 
-    <div class="controls">
-        <button id="run-button">Run</button>
-    </div>
-    <p id="status"></p>
-    <script type="module" src="script/dist/index.js"></script>
+        <p id="status"></p>
+        <script type="module" src="script/dist/index.js"></script>
+    </main>
 </body>
 </html>
