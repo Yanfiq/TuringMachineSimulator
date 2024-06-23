@@ -8,6 +8,10 @@ export class TuringMachineController {
     private a: number;
     private b: number;
     private result: number | undefined;
+    private intervalDuration: number = 200;
+    private addition?: Addition;
+    private exponentiation?: Exponentiation;
+    private division?: Division;
 
     constructor(m: number, n: number, a: number, b: number) {
         this.m = m;
@@ -16,13 +20,32 @@ export class TuringMachineController {
         this.b = b;
     }
 
+    setIntervalDuration(duration: number) {
+        console.log(duration);
+        this.intervalDuration = duration;
+        if(this.addition !== undefined && this.addition?.getResult() === undefined){
+            this.addition.stop();
+            this.addition.run(this.intervalDuration);
+        }else if(this.exponentiation !== undefined && this.exponentiation?.getResult() === undefined){
+            this.exponentiation.stop()
+            this.exponentiation.run(this.intervalDuration);
+        }else if(this.division !== undefined && this.division?.getResult() === undefined){
+            this.division.stop()
+            this.division.run(this.intervalDuration);
+        }
+    }
+
+    getIntervalDuration(): number{
+        return this.intervalDuration;
+    }
+
     async run() {
         try {
             const additionResult = await this.runAddition(this.m, this.n);
             const exponentiationResult = await this.runExponentiation(additionResult, this.a);
             const divisionResult = await this.runDivision(exponentiationResult, this.b);
             this.result = divisionResult;
-            console.log(`Final Result: ${this.result}`);
+            alert('The result is '+this.result);
         } catch (error) {
             console.error("Error running the Turing machines:", error);
         }
@@ -30,40 +53,40 @@ export class TuringMachineController {
 
     private runAddition(m: number, n: number): Promise<number> {
         return new Promise((resolve, reject) => {
-            const addition = new Addition(m, n);
-            addition.run();
+            this.addition = new Addition(m, n);
+            this.addition.run(this.intervalDuration);
             const intervalId = setInterval(() => {
-                if (addition.getResult() !== undefined) {
+                if (this.addition?.getResult() !== undefined) {
                     clearInterval(intervalId);
-                    resolve(addition.getResult() as number);
+                    resolve(this.addition.getResult() as number);
                 }
-            }, 200);
+            }, this.intervalDuration);
         });
     }
 
     private runExponentiation(base: number, exponent: number): Promise<number> {
         return new Promise((resolve, reject) => {
-            const exponentiation = new Exponentiation(base, exponent);
-            exponentiation.run();
+            this.exponentiation = new Exponentiation(base, exponent);
+            this.exponentiation.run(this.intervalDuration);
             const intervalId = setInterval(() => {
-                if (exponentiation.getResult() !== undefined) {
+                if (this.exponentiation?.getResult() !== undefined) {
                     clearInterval(intervalId);
-                    resolve(exponentiation.getResult() as number);
+                    resolve(this.exponentiation.getResult() as number);
                 }
-            }, 200);
+            }, this.intervalDuration);
         });
     }
 
     private runDivision(numerator: number, denominator: number): Promise<number> {
         return new Promise((resolve, reject) => {
-            const division = new Division(numerator, denominator);
-            division.run();
+            this.division = new Division(numerator, denominator);
+            this.division.run(this.intervalDuration);
             const intervalId = setInterval(() => {
-                if (division.getResult() !== undefined) {
+                if (this.division?.getResult() !== undefined) {
                     clearInterval(intervalId);
-                    resolve(division.getResult() as number);
+                    resolve(this.division.getResult() as number);
                 }
-            }, 200);
+            }, this.intervalDuration);
         });
     }
 

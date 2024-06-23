@@ -9,6 +9,7 @@ export class Exponentiation {
     private tape_result: Tape;
     private intervalId: any;
     result?: number;
+    private currentState: State;
     
     constructor(m: number, n: number){
         const q0: State = new State('q0', false);
@@ -50,6 +51,8 @@ export class Exponentiation {
         q9.addTransition({inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q1});
 
         this.diagram = new Diagram([q0, q1, q2, q3], q0);
+
+        this.currentState = this.diagram.getStartState();
         
         //raw string construction
         let rawInput: string = (m<0) ? '1' : '';
@@ -68,15 +71,14 @@ export class Exponentiation {
         document.querySelector('.machine')?.appendChild(this.tape_result.getHtmlElement());
     }
 
-    run() {
-        let currentState: State = this.diagram.getStartState();
+    run(interval: number) {
         this.intervalId = setInterval(() => {
-            console.log(currentState);
-            let nextState = currentState.getNextState(this.tape_input.getPointedValue()+this.tape_multipllier.getPointedValue()+this.tape_result.getPointedValue());
-            let direction = currentState.getNextDirection(this.tape_input.getPointedValue()+this.tape_multipllier.getPointedValue()+this.tape_result.getPointedValue());
-            let writeSymbol = currentState.getWriteSymbol(this.tape_input.getPointedValue()+this.tape_multipllier.getPointedValue()+this.tape_result.getPointedValue());
+            console.log(this.currentState);
+            let nextState = this.currentState.getNextState(this.tape_input.getPointedValue()+this.tape_multipllier.getPointedValue()+this.tape_result.getPointedValue());
+            let direction = this.currentState.getNextDirection(this.tape_input.getPointedValue()+this.tape_multipllier.getPointedValue()+this.tape_result.getPointedValue());
+            let writeSymbol = this.currentState.getWriteSymbol(this.tape_input.getPointedValue()+this.tape_multipllier.getPointedValue()+this.tape_result.getPointedValue());
             if (nextState != undefined) {
-                currentState = nextState;
+                this.currentState = nextState;
                 this.tape_input.changeValue(writeSymbol[0]);
                 this.tape_multipllier.changeValue(writeSymbol[1]);
                 this.tape_result.changeValue(writeSymbol[2]);
@@ -84,7 +86,7 @@ export class Exponentiation {
                 direction[1]=='L' ? this.tape_multipllier.moveLeft() : direction[1]=='R' ? this.tape_multipllier.moveRight() : null;
                 direction[2]=='L' ? this.tape_result.moveLeft() : direction[2]=='R' ? this.tape_result.moveRight() : null;
             } else {
-                if(currentState.isAccept()){
+                if(this.currentState.isAccept()){
                     this.result = 0;
                     let tapeElement = this.tape_result.getHtmlElement()
                     let tapeChild = tapeElement.childNodes
@@ -94,7 +96,7 @@ export class Exponentiation {
                 }
                 this.stop();
             }
-        }, 200);
+        }, interval);
     }
 
     stop() {

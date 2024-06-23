@@ -7,6 +7,7 @@ export class Addition {
     private tape: Tape;
     private intervalId: any;
     result?: number;
+    private currentState: State;
     
     constructor(m: number, n: number){
         const q0: State = new State('q0', false);
@@ -21,6 +22,8 @@ export class Addition {
         q2.addTransition({inputSymbol: '0', writeSymbol: 'B', direction: 'R', nextState: q3});
 
         this.diagram = new Diagram([q0, q1, q2, q3], q0);
+
+        this.currentState = this.diagram.getStartState();
         
         //raw string construction
         let rawInput: string = (m<0) ? '1' : '';
@@ -35,14 +38,13 @@ export class Addition {
         document.querySelector('.machine')?.appendChild(this.tape.getHtmlElement());
     }
 
-    run(){
-        let currentState: State = this.diagram.getStartState();
+    run(interval: number){
         this.intervalId = setInterval(() => {
-            let nextState = currentState.getNextState(this.tape.getPointedValue());
-            let direction = currentState.getNextDirection(this.tape.getPointedValue())[0];
-            let writeSymbol = currentState.getWriteSymbol(this.tape.getPointedValue())[0];
+            let nextState = this.currentState.getNextState(this.tape.getPointedValue());
+            let direction = this.currentState.getNextDirection(this.tape.getPointedValue())[0];
+            let writeSymbol = this.currentState.getWriteSymbol(this.tape.getPointedValue())[0];
             if (nextState != undefined) {
-                currentState = nextState;
+                this.currentState = nextState;
                 this.tape.changeValue(writeSymbol);
                 if (direction == 'L') {
                     this.tape.moveLeft();
@@ -50,7 +52,7 @@ export class Addition {
                     this.tape.moveRight();
                 }
             } else {
-                if(currentState.isAccept()){
+                if(this.currentState.isAccept()){
                     this.result = 0;
                     let tapeElement = this.tape.getHtmlElement()
                     let tapeChild = tapeElement.childNodes
@@ -60,7 +62,7 @@ export class Addition {
                 }
                 this.stop();
             }
-        }, 200);
+        }, interval);
     }
 
     stop() {

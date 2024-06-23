@@ -5,6 +5,7 @@ let m: number;
 let n: number;
 let a: number;
 let b: number;
+let controller: TuringMachineController;
 
 form?.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -12,6 +13,12 @@ form?.addEventListener('submit', function(event) {
     n = parseInt((<HTMLInputElement>document.querySelector('[name="n"]')).value);
     a = parseInt((<HTMLInputElement>document.querySelector('[name="a"]')).value);
     b = parseInt((<HTMLInputElement>document.querySelector('[name="b"]')).value);
-    const controller = new TuringMachineController(m, n, a, b);
+    controller = new TuringMachineController(m, n, a, b);
     controller.run();
 });
+
+
+document.querySelector('#tm-setting')?.addEventListener('submit', function(event) {
+    event.preventDefault();
+    controller.setIntervalDuration(parseInt((<HTMLInputElement>document.querySelector('#intervalDuration')).value));
+})

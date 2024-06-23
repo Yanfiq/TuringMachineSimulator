@@ -46,6 +46,8 @@ header {
     align-items: center;
     background-color: var(--color-primary);
     color: var(--color-white);
+    position: sticky;
+    top: 0%;
 }
 
 header h1 {
@@ -60,20 +62,25 @@ main {
     align-items: center;
 }
 
+#equation {
+    display: flex;
+    flex-direction: row;
+}
+
 #equation-image{
-    width: 20rem;
+    width: 100%;
+    height: auto;
 }
 
 .input-form{
-    margin: var(--spacing-sm);
-    padding: var(--spacing-xs);
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xs);
 }
 
 .input-component{
     margin: 1px;
+    display: flex;
+    flex-direction: column;
 }
 
 .input-field{
@@ -99,6 +106,13 @@ main {
     background-color: transparent;
     color: var(--color-primary);
     transition-duration: 200ms;
+}
+
+#tm-setting{
+    border-radius: 0.5rem;
+    position: fixed;
+    right: 0%;
+    bottom: 0%;
 }
 
 .machine{

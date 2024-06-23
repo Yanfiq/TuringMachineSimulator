@@ -14,6 +14,7 @@ export class Addition {
         q1.addTransition({ inputSymbol: 'B', writeSymbol: 'B', direction: 'L', nextState: q2 });
         q2.addTransition({ inputSymbol: '0', writeSymbol: 'B', direction: 'R', nextState: q3 });
         this.diagram = new Diagram([q0, q1, q2, q3], q0);
+        this.currentState = this.diagram.getStartState();
         //raw string construction
         let rawInput = (m < 0) ? '1' : '';
         for (let i = 0; i < Math.abs(m); i++) {
@@ -26,14 +27,13 @@ export class Addition {
         this.tape = new Tape(rawInput);
         (_a = document.querySelector('.machine')) === null || _a === void 0 ? void 0 : _a.appendChild(this.tape.getHtmlElement());
     }
-    run() {
-        let currentState = this.diagram.getStartState();
+    run(interval) {
         this.intervalId = setInterval(() => {
-            let nextState = currentState.getNextState(this.tape.getPointedValue());
-            let direction = currentState.getNextDirection(this.tape.getPointedValue())[0];
-            let writeSymbol = currentState.getWriteSymbol(this.tape.getPointedValue())[0];
+            let nextState = this.currentState.getNextState(this.tape.getPointedValue());
+            let direction = this.currentState.getNextDirection(this.tape.getPointedValue())[0];
+            let writeSymbol = this.currentState.getWriteSymbol(this.tape.getPointedValue())[0];
             if (nextState != undefined) {
-                currentState = nextState;
+                this.currentState = nextState;
                 this.tape.changeValue(writeSymbol);
                 if (direction == 'L') {
                     this.tape.moveLeft();
@@ -43,7 +43,7 @@ export class Addition {
                 }
             }
             else {
-                if (currentState.isAccept()) {
+                if (this.currentState.isAccept()) {
                     this.result = 0;
                     let tapeElement = this.tape.getHtmlElement();
                     let tapeChild = tapeElement.childNodes;
@@ -53,7 +53,7 @@ export class Addition {
                 }
                 this.stop();
             }
-        }, 200);
+        }, interval);
     }
     stop() {
         if (this.intervalId !== null) {

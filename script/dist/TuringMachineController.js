@@ -12,10 +12,31 @@ import { Exponentiation } from "./Exponentiation.js";
 import { Division } from "./Division.js";
 export class TuringMachineController {
     constructor(m, n, a, b) {
+        this.intervalDuration = 200;
         this.m = m;
         this.n = n;
         this.a = a;
         this.b = b;
+    }
+    setIntervalDuration(duration) {
+        var _a, _b, _c;
+        console.log(duration);
+        this.intervalDuration = duration;
+        if (this.addition !== undefined && ((_a = this.addition) === null || _a === void 0 ? void 0 : _a.getResult()) === undefined) {
+            this.addition.stop();
+            this.addition.run(this.intervalDuration);
+        }
+        else if (this.exponentiation !== undefined && ((_b = this.exponentiation) === null || _b === void 0 ? void 0 : _b.getResult()) === undefined) {
+            this.exponentiation.stop();
+            this.exponentiation.run(this.intervalDuration);
+        }
+        else if (this.division !== undefined && ((_c = this.division) === null || _c === void 0 ? void 0 : _c.getResult()) === undefined) {
+            this.division.stop();
+            this.division.run(this.intervalDuration);
+        }
+    }
+    getIntervalDuration() {
+        return this.intervalDuration;
     }
     run() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -24,7 +45,7 @@ export class TuringMachineController {
                 const exponentiationResult = yield this.runExponentiation(additionResult, this.a);
                 const divisionResult = yield this.runDivision(exponentiationResult, this.b);
                 this.result = divisionResult;
-                console.log(`Final Result: ${this.result}`);
+                alert('The result is ' + this.result);
             }
             catch (error) {
                 console.error("Error running the Turing machines:", error);
@@ -33,38 +54,41 @@ export class TuringMachineController {
     }
     runAddition(m, n) {
         return new Promise((resolve, reject) => {
-            const addition = new Addition(m, n);
-            addition.run();
+            this.addition = new Addition(m, n);
+            this.addition.run(this.intervalDuration);
             const intervalId = setInterval(() => {
-                if (addition.getResult() !== undefined) {
+                var _a;
+                if (((_a = this.addition) === null || _a === void 0 ? void 0 : _a.getResult()) !== undefined) {
                     clearInterval(intervalId);
-                    resolve(addition.getResult());
+                    resolve(this.addition.getResult());
                 }
-            }, 200);
+            }, this.intervalDuration);
         });
     }
     runExponentiation(base, exponent) {
         return new Promise((resolve, reject) => {
-            const exponentiation = new Exponentiation(base, exponent);
-            exponentiation.run();
+            this.exponentiation = new Exponentiation(base, exponent);
+            this.exponentiation.run(this.intervalDuration);
             const intervalId = setInterval(() => {
-                if (exponentiation.getResult() !== undefined) {
+                var _a;
+                if (((_a = this.exponentiation) === null || _a === void 0 ? void 0 : _a.getResult()) !== undefined) {
                     clearInterval(intervalId);
-                    resolve(exponentiation.getResult());
+                    resolve(this.exponentiation.getResult());
                 }
-            }, 200);
+            }, this.intervalDuration);
         });
     }
     runDivision(numerator, denominator) {
         return new Promise((resolve, reject) => {
-            const division = new Division(numerator, denominator);
-            division.run();
+            this.division = new Division(numerator, denominator);
+            this.division.run(this.intervalDuration);
             const intervalId = setInterval(() => {
-                if (division.getResult() !== undefined) {
+                var _a;
+                if (((_a = this.division) === null || _a === void 0 ? void 0 : _a.getResult()) !== undefined) {
                     clearInterval(intervalId);
-                    resolve(division.getResult());
+                    resolve(this.division.getResult());
                 }
-            }, 200);
+            }, this.intervalDuration);
         });
     }
     getResult() {

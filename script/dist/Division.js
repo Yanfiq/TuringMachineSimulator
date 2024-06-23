@@ -28,6 +28,7 @@ export class Division {
         q4.addTransition({ inputSymbol: '0BB', writeSymbol: '0BB', direction: 'SRS', nextState: q5 });
         q5.addTransition({ inputSymbol: '00B', writeSymbol: 'X0B', direction: 'RRS', nextState: q3 });
         this.diagram = new Diagram([q0, q1, q2, q3, q4, q5], q0);
+        this.currentState = this.diagram.getStartState();
         //raw string construction
         let rawInput = (m < 0) ? '1' : '';
         for (let i = 0; i < Math.abs(m); i++) {
@@ -44,16 +45,14 @@ export class Division {
         (_b = document.querySelector('.machine')) === null || _b === void 0 ? void 0 : _b.appendChild(this.tape_divider.getHtmlElement());
         (_c = document.querySelector('.machine')) === null || _c === void 0 ? void 0 : _c.appendChild(this.tape_result.getHtmlElement());
     }
-    run() {
-        console.log("run");
-        let currentState = this.diagram.getStartState();
+    run(interval) {
         this.intervalId = setInterval(() => {
-            console.log(currentState);
-            let nextState = currentState.getNextState(this.tape_input.getPointedValue() + this.tape_divider.getPointedValue() + this.tape_result.getPointedValue());
-            let direction = currentState.getNextDirection(this.tape_input.getPointedValue() + this.tape_divider.getPointedValue() + this.tape_result.getPointedValue());
-            let writeSymbol = currentState.getWriteSymbol(this.tape_input.getPointedValue() + this.tape_divider.getPointedValue() + this.tape_result.getPointedValue());
+            console.log(this.currentState);
+            let nextState = this.currentState.getNextState(this.tape_input.getPointedValue() + this.tape_divider.getPointedValue() + this.tape_result.getPointedValue());
+            let direction = this.currentState.getNextDirection(this.tape_input.getPointedValue() + this.tape_divider.getPointedValue() + this.tape_result.getPointedValue());
+            let writeSymbol = this.currentState.getWriteSymbol(this.tape_input.getPointedValue() + this.tape_divider.getPointedValue() + this.tape_result.getPointedValue());
             if (nextState != undefined) {
-                currentState = nextState;
+                this.currentState = nextState;
                 this.tape_input.changeValue(writeSymbol[0]);
                 this.tape_divider.changeValue(writeSymbol[1]);
                 this.tape_result.changeValue(writeSymbol[2]);
@@ -62,7 +61,7 @@ export class Division {
                 direction[2] == 'L' ? this.tape_result.moveLeft() : direction[2] == 'R' ? this.tape_result.moveRight() : null;
             }
             else {
-                if (currentState.isAccept()) {
+                if (this.currentState.isAccept()) {
                     this.result = 0;
                     let tapeElement = this.tape_result.getHtmlElement();
                     let tapeChild = tapeElement.childNodes;
@@ -73,7 +72,7 @@ export class Division {
                 }
                 this.stop();
             }
-        }, 200);
+        }, interval);
     }
     stop() {
         if (this.intervalId !== null) {
