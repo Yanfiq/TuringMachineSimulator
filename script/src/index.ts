@@ -1,21 +1,24 @@
 import { Addition } from './Addition.js';
+import { Division } from './Division.js';
 import { Exponentiation } from './Exponentiation.js';
 
 let form = document.querySelector('.initial-value');
-let test: Exponentiation;
+let addition: Addition;
+let exponent: Exponentiation;
+let division: Division;
 
 form?.addEventListener('submit', function(event) {
     event.preventDefault();
     const m: number = parseInt((<HTMLInputElement>document.querySelector('[name="m"]')).value);
     const n: number = parseInt((<HTMLInputElement>document.querySelector('[name="n"]')).value);
-    test = new Exponentiation(m, n);
-    console.log("Addition instance created:", test);
+    division = new Division(m, n);
+    console.log("Addition instance created:", division);
 });
 
 document.querySelector('#run-button')?.addEventListener('click', function () {
-    if (test) {
+    if (division) {
         console.log("Run method called");
-        test.run();
+        division.run();
     } else {
         console.error("Addition instance is not defined. Please submit the form first.");
     }

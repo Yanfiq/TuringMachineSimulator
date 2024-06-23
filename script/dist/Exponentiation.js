@@ -14,11 +14,12 @@ export class Exponentiation {
         const q7 = new State('q7', false);
         const q8 = new State('q8', false);
         const q9 = new State('q9', false);
-        const q10 = new State('q10', false);
+        const q10 = new State('q10', true);
         q0.addTransition({ inputSymbol: '0BB', writeSymbol: '0BB', direction: 'RSS', nextState: q0 });
         q0.addTransition({ inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q1 });
         q1.addTransition({ inputSymbol: 'XBB', writeSymbol: 'XBB', direction: 'RSS', nextState: q1 });
         q1.addTransition({ inputSymbol: '0BB', writeSymbol: 'XBB', direction: 'LSS', nextState: q2 });
+        q1.addTransition({ inputSymbol: 'BBB', writeSymbol: 'BBB', direction: 'SSS', nextState: q10 });
         q2.addTransition({ inputSymbol: 'XBB', writeSymbol: 'XBB', direction: 'LSS', nextState: q2 });
         q2.addTransition({ inputSymbol: '1BB', writeSymbol: '1BB', direction: 'LLL', nextState: q3 });
         q3.addTransition({ inputSymbol: '0BB', writeSymbol: '0BB', direction: 'LSS', nextState: q3 });
@@ -84,13 +85,13 @@ export class Exponentiation {
                 }
                 this.stop();
             }
-        }, 500);
+        }, 1);
     }
     stop() {
         if (this.intervalId !== null) {
             clearInterval(this.intervalId);
             this.intervalId = null;
-            console.log("Turing machine stopped");
+            console.log("Turing machine stopped, result=" + this.result);
         }
     }
     getResult() {

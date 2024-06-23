@@ -1,5 +1,4 @@
 import { Transition } from "./Transition.js";
-import { arraysEqual } from "./Util.js";
 
 export class State {
     private value: string;
