@@ -9,18 +9,32 @@ export class Tape {
         let front = new Symbol('B', -1);
         this.memory.set(-1, front);
         this.tape_visual.appendChild(front.getElement());
-        [...rawInput].forEach((char, index) => {
-            let symbol = new Symbol(char, index);
-            this.memory.set(index, symbol);
-            if (index == 0) {
-                symbol.activate();
-            }
+        this.leftMostB = -1;
+        if (rawInput.length > 0) {
+            [...rawInput].forEach((char, index) => {
+                let symbol = new Symbol(char, index);
+                this.memory.set(index, symbol);
+                if (index == 0) {
+                    symbol.activate();
+                }
+                this.tape_visual.appendChild(symbol.getElement());
+            });
+            let back = new Symbol('B', rawInput.length);
+            this.memory.set(rawInput.length, back);
+            this.rightMostB = rawInput.length;
+            this.tape_visual.appendChild(back.getElement());
+        }
+        else {
+            let symbol = new Symbol('B', 0);
+            this.memory.set(0, symbol);
+            symbol.activate();
             this.tape_visual.appendChild(symbol.getElement());
-        });
-        let back = new Symbol('B', rawInput.length);
-        this.memory.set(rawInput.length, back);
+            let back = new Symbol('B', 1);
+            this.memory.set(1, back);
+            this.rightMostB = 1;
+            this.tape_visual.appendChild(back.getElement());
+        }
         console.log(this.memory);
-        this.tape_visual.appendChild(back.getElement());
     }
     getHtmlElement() {
         return this.tape_visual;
@@ -34,6 +48,20 @@ export class Tape {
     }
     changeValue(newValue) {
         var _a;
+        if (this.getPointedValue() != newValue && (this.headPosition == this.leftMostB || this.headPosition == this.rightMostB)) {
+            if (this.headPosition == this.leftMostB) {
+                this.leftMostB -= 1;
+                let symbol = new Symbol('B', this.leftMostB);
+                this.memory.set(this.leftMostB, symbol);
+                this.tape_visual.insertBefore(symbol.getElement(), this.tape_visual.firstChild);
+            }
+            else if (this.headPosition == this.rightMostB) {
+                this.rightMostB += 1;
+                let symbol = new Symbol('B', this.rightMostB);
+                this.memory.set(this.rightMostB, symbol);
+                this.tape_visual.appendChild(symbol.getElement());
+            }
+        }
         (_a = this.memory.get(this.headPosition)) === null || _a === void 0 ? void 0 : _a.setValue(newValue);
     }
     setStorageValue(newValue) {

@@ -5,6 +5,8 @@ export class Tape {
     private tape_visual: HTMLElement;
     private storage: string;
     private headPosition: number;
+    private leftMostB: number;
+    private rightMostB: number;
 
     constructor(rawInput: string){
         this.memory = new Map();
@@ -17,18 +19,34 @@ export class Tape {
         let front: Symbol = new Symbol('B', -1);
         this.memory.set(-1, front);
         this.tape_visual.appendChild(front.getElement());
+        this.leftMostB = -1;
 
-        [...rawInput].forEach((char, index) =>{
-            let symbol: Symbol = new Symbol(char, index);    
-            this.memory.set(index, symbol);
-            if(index==0) {symbol.activate();}
+        if(rawInput.length > 0){
+            [...rawInput].forEach((char, index) =>{
+                let symbol: Symbol = new Symbol(char, index);    
+                this.memory.set(index, symbol);
+                if(index==0) {symbol.activate();}
+                this.tape_visual.appendChild(symbol.getElement());
+            })
+
+            let back: Symbol = new Symbol('B', rawInput.length);
+            this.memory.set(rawInput.length, back);
+            this.rightMostB = rawInput.length;
+            this.tape_visual.appendChild(back.getElement());
+        }else{
+            let symbol: Symbol = new Symbol('B', 0);   
+            this.memory.set(0, symbol);
+            symbol.activate();
             this.tape_visual.appendChild(symbol.getElement());
-        })
+
+            let back: Symbol = new Symbol('B', 1);
+            this.memory.set(1, back);
+            this.rightMostB = 1;
+            this.tape_visual.appendChild(back.getElement());
+        }
         
-        let back: Symbol = new Symbol('B', rawInput.length);
-        this.memory.set(rawInput.length, back);
+
         console.log(this.memory)
-        this.tape_visual.appendChild(back.getElement());
     }
 
     getHtmlElement(): HTMLElement{
@@ -44,6 +62,19 @@ export class Tape {
     }
 
     changeValue(newValue: string): void{
+        if(this.getPointedValue() != newValue && (this.headPosition == this.leftMostB || this.headPosition == this.rightMostB)){
+            if(this.headPosition == this.leftMostB){
+                this.leftMostB -= 1;
+                let symbol: Symbol = new Symbol('B', this.leftMostB);   
+                this.memory.set(this.leftMostB, symbol);
+                this.tape_visual.insertBefore(symbol.getElement(), this.tape_visual.firstChild);
+            }else if(this.headPosition == this.rightMostB){
+                this.rightMostB += 1;
+                let symbol: Symbol = new Symbol('B', this.rightMostB);   
+                this.memory.set(this.rightMostB, symbol);
+                this.tape_visual.appendChild(symbol.getElement());
+            }
+        }
         this.memory.get(this.headPosition)?.setValue(newValue);
     }
 

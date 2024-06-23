@@ -40,8 +40,8 @@ export class Addition {
         let currentState: State = this.diagram.getStartState();
         this.intervalId = setInterval(() => {
             let nextState = currentState.getNextState(this.tape.getPointedValue());
-            let direction = currentState.getNextDirection(this.tape.getPointedValue());
-            let writeSymbol = currentState.getWriteSymbol(this.tape.getPointedValue());
+            let direction = currentState.getNextDirection(this.tape.getPointedValue())[0];
+            let writeSymbol = currentState.getWriteSymbol(this.tape.getPointedValue())[0];
             if (nextState != undefined) {
                 currentState = nextState;
                 this.tape.changeValue(writeSymbol);
