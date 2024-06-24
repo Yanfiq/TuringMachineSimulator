@@ -4,17 +4,19 @@ let form = document.querySelector('.input-form');
 let m: number;
 let n: number;
 let a: number;
-let b: number;
+let b: number;7
 let controller: TuringMachineController;
 
 form?.addEventListener('submit', function(event) {
     event.preventDefault();
-    m = parseInt((<HTMLInputElement>document.querySelector('[name="m"]')).value);
-    n = parseInt((<HTMLInputElement>document.querySelector('[name="n"]')).value);
-    a = parseInt((<HTMLInputElement>document.querySelector('[name="a"]')).value);
-    b = parseInt((<HTMLInputElement>document.querySelector('[name="b"]')).value);
-    controller = new TuringMachineController(m, n, a, b);
-    controller.run();
+    if(controller === undefined){
+        m = parseInt((<HTMLInputElement>document.querySelector('[name="m"]')).value);
+        n = parseInt((<HTMLInputElement>document.querySelector('[name="n"]')).value);
+        a = parseInt((<HTMLInputElement>document.querySelector('[name="a"]')).value);
+        b = parseInt((<HTMLInputElement>document.querySelector('[name="b"]')).value);
+        controller = new TuringMachineController(m, n, a, b);
+        controller.run();
+    }
 });
 
 

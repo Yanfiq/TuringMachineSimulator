@@ -40,7 +40,6 @@ export class State {
         const key: string = `${inputSymbol}:${storageSymbol}`;
         return this.transition.get(key)?.[3];
     }
-    
 
     getValue(): string {
         return this.value;
