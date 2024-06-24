@@ -12,7 +12,7 @@ import { Exponentiation } from "./Exponentiation.js";
 import { Division } from "./Division.js";
 export class TuringMachineController {
     constructor(m, n, a, b) {
-        this.intervalDuration = 200;
+        this.intervalDuration = 500;
         this.m = m;
         this.n = n;
         this.a = a;

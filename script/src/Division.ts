@@ -31,6 +31,7 @@ export class Division {
         q7.addTransition({inputSymbol: '0B1', writeSymbol: '0B1', direction: 'RSS', nextState: q7});
         q7.addTransition({inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q8});
         q7.addTransition({inputSymbol: '1B1', writeSymbol: '1B1', direction: 'RSS', nextState: q8});
+        q7.addTransition({inputSymbol: 'BB1', writeSymbol: 'BB1', direction: 'SSS', nextState: q6});
 
         q8.addTransition({inputSymbol: '0BB', writeSymbol: '0BB', direction: 'SSS', nextState: q1});
         q8.addTransition({inputSymbol: '0B1', writeSymbol: '0B1', direction: 'SSR', nextState: q1});

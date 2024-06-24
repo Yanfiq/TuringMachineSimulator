@@ -8,7 +8,7 @@ export class TuringMachineController {
     private a: number;
     private b: number;
     private result: number | undefined;
-    private intervalDuration: number = 200;
+    private intervalDuration: number = 500;
     private addition?: Addition;
     private exponentiation?: Exponentiation;
     private division?: Division;

@@ -16,21 +16,24 @@ export class Addition {
         const q9 = new State('q9', false);
         q0.addTransition({ inputSymbol: '0BB', writeSymbol: '00B', direction: 'RRS', nextState: q1 });
         q0.addTransition({ inputSymbol: '1BB', writeSymbol: '11B', direction: 'RRS', nextState: q1 });
+        //copying first value
         q1.addTransition({ inputSymbol: '0BB', writeSymbol: '00B', direction: 'RRS', nextState: q1 });
         q1.addTransition({ inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RLS', nextState: q2 });
+        //sign check
         q2.addTransition({ inputSymbol: '00B', writeSymbol: '00B', direction: 'SLS', nextState: q2 });
         q2.addTransition({ inputSymbol: '10B', writeSymbol: '10B', direction: 'SLS', nextState: q2 });
+        q2.addTransition({ inputSymbol: '0BB', writeSymbol: '0BB', direction: 'SRS', nextState: q8 }); //both have the same sign
+        q2.addTransition({ inputSymbol: '1BB', writeSymbol: '1BB', direction: 'SRS', nextState: q8 }); //the first already negative
+        q2.addTransition({ inputSymbol: '01B', writeSymbol: '01B', direction: 'SSS', nextState: q8 });
+        q8.addTransition({ inputSymbol: '00B', writeSymbol: '00B', direction: 'SSS', nextState: q9 }); //both are positive
+        q8.addTransition({ inputSymbol: '11B', writeSymbol: '111', direction: 'RRR', nextState: q9 }); //both are negative
+        q8.addTransition({ inputSymbol: '10B', writeSymbol: '10B', direction: 'RRS', nextState: q3 }); //the first number is negative
+        q8.addTransition({ inputSymbol: '01B', writeSymbol: '01B', direction: 'RRS', nextState: q3 }); //the second number is negative
         //either both positive or both negative
-        q8.addTransition({ inputSymbol: '00B', writeSymbol: '00B', direction: 'SSS', nextState: q9 });
-        q8.addTransition({ inputSymbol: '11B', writeSymbol: '111', direction: 'RRR', nextState: q9 });
         q9.addTransition({ inputSymbol: '00B', writeSymbol: '000', direction: 'SRR', nextState: q9 });
         q9.addTransition({ inputSymbol: '0BB', writeSymbol: '0B0', direction: 'RSR', nextState: q9 });
         q9.addTransition({ inputSymbol: 'BBB', writeSymbol: 'BBB', direction: 'SSS', nextState: q7 });
         //both have different signs
-        q2.addTransition({ inputSymbol: '0BB', writeSymbol: '0BB', direction: 'SRS', nextState: q8 });
-        q2.addTransition({ inputSymbol: '1BB', writeSymbol: '1BB', direction: 'SRS', nextState: q8 });
-        q8.addTransition({ inputSymbol: '10B', writeSymbol: '10B', direction: 'RRS', nextState: q3 });
-        q8.addTransition({ inputSymbol: '01B', writeSymbol: '01B', direction: 'RRS', nextState: q3 });
         q3.addTransition({ inputSymbol: '0BB', writeSymbol: '0BB', direction: 'RSS', nextState: q3 });
         q3.addTransition({ inputSymbol: 'B0B', writeSymbol: 'B0B', direction: 'SRS', nextState: q3 });
         q3.addTransition({ inputSymbol: '00B', writeSymbol: '00B', direction: 'RRS', nextState: q3 });
