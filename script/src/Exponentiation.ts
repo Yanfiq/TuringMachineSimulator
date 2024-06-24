@@ -79,6 +79,7 @@ export class Exponentiation {
         q14.addTransition({inputSymbol: 'XBB', writeSymbol: 'XB1', direction: 'RSS', nextState: q14});
         q14.addTransition({inputSymbol: 'XB1', writeSymbol: 'XBB', direction: 'RSS', nextState: q14});
         q14.addTransition({inputSymbol: 'BBB', writeSymbol: 'BBB', direction: 'SSS', nextState: q12});
+        q14.addTransition({inputSymbol: 'BB1', writeSymbol: 'BB1', direction: 'SSS', nextState: q12});
 
         this.diagram = new Diagram([q0, q1, q2, q3], q0);
 
