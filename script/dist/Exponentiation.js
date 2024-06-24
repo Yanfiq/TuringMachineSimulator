@@ -20,13 +20,16 @@ export class Exponentiation {
         const q13 = new State('q13', false);
         const q14 = new State('q14', false);
         const q15 = new State('q15', false);
+        const q16 = new State('q16', false);
         q0.addTransition({ inputSymbol: '0BB', writeSymbol: '0BB', direction: 'RSS', nextState: q15 });
         q0.addTransition({ inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q15 });
         q15.addTransition({ inputSymbol: '0BB', writeSymbol: '0BB', direction: 'RSS', nextState: q15 });
-        q15.addTransition({ inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q1 });
+        q15.addTransition({ inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q16 });
+        q16.addTransition({ inputSymbol: 'BBB', writeSymbol: 'BBB', direction: 'SSS', nextState: q12 });
+        q16.addTransition({ inputSymbol: '0BB', writeSymbol: 'BBB', direction: 'SSS', nextState: q1 });
+        q16.addTransition({ inputSymbol: '1BB', writeSymbol: 'BBB', direction: 'SSS', nextState: q12 });
         q1.addTransition({ inputSymbol: 'XBB', writeSymbol: 'XBB', direction: 'RSS', nextState: q1 });
         q1.addTransition({ inputSymbol: '0BB', writeSymbol: 'XBB', direction: 'LSS', nextState: q2 });
-        q1.addTransition({ inputSymbol: '1BB', writeSymbol: '1BB', direction: 'SSS', nextState: q12 });
         q2.addTransition({ inputSymbol: 'XBB', writeSymbol: 'XBB', direction: 'LSS', nextState: q2 });
         q2.addTransition({ inputSymbol: '1BB', writeSymbol: '1BB', direction: 'LLL', nextState: q3 });
         q3.addTransition({ inputSymbol: '0BB', writeSymbol: '0BB', direction: 'LSS', nextState: q3 });
