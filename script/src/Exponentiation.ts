@@ -22,19 +22,30 @@ export class Exponentiation {
         const q7: State = new State('q7', false);
         const q8: State = new State('q8', false);
         const q9: State = new State('q9', false);
-        const q10: State = new State('q10', true);
+        const q10: State = new State('q10', false);
+        const q11: State = new State('q11', false);
+        const q12: State = new State('q12', true)
+        const q13: State = new State('q13', false);
+        const q14: State = new State('q14', false);
+        const q15: State = new State('q15', false);
             
-        q0.addTransition({inputSymbol: '0BB', writeSymbol: '0BB', direction: 'RSS', nextState: q0});
-        q0.addTransition({inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q1});
+        q0.addTransition({inputSymbol: '0BB', writeSymbol: '0BB', direction: 'RSS', nextState: q15});
+        q0.addTransition({inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q15});
+        q15.addTransition({inputSymbol: '0BB', writeSymbol: '0BB', direction: 'RSS', nextState: q15});
+        q15.addTransition({inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q1});
+
         q1.addTransition({inputSymbol: 'XBB', writeSymbol: 'XBB', direction: 'RSS', nextState: q1});
         q1.addTransition({inputSymbol: '0BB', writeSymbol: 'XBB', direction: 'LSS', nextState: q2});
-        q1.addTransition({inputSymbol: 'BBB', writeSymbol: 'BBB', direction: 'SSS', nextState: q10});
         q2.addTransition({inputSymbol: 'XBB', writeSymbol: 'XBB', direction: 'LSS', nextState: q2});
         q2.addTransition({inputSymbol: '1BB', writeSymbol: '1BB', direction: 'LLL', nextState: q3});
+
         q3.addTransition({inputSymbol: '0BB', writeSymbol: '0BB', direction: 'LSS', nextState: q3});
         q3.addTransition({inputSymbol: '000', writeSymbol: '00B', direction: 'LLL', nextState: q3});
         q3.addTransition({inputSymbol: 'B00', writeSymbol: 'B0B', direction: 'SLL', nextState: q3});
+        q3.addTransition({inputSymbol: '100', writeSymbol: '10B', direction: 'SLL', nextState: q3});
+
         q3.addTransition({inputSymbol: 'BBB', writeSymbol: 'BBB', direction: 'RRR', nextState: q4});
+        q3.addTransition({inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RRR', nextState: q4});
         q4.addTransition({inputSymbol: '0BB', writeSymbol: '00B', direction: 'SSS', nextState: q5});
         q4.addTransition({inputSymbol: '00B', writeSymbol: '00B', direction: 'SSS', nextState: q5});
         q5.addTransition({inputSymbol: '00B', writeSymbol: '000', direction: 'SRR', nextState: q6});
@@ -49,6 +60,25 @@ export class Exponentiation {
         q9.addTransition({inputSymbol: '100', writeSymbol: '100', direction: 'SRR', nextState: q9});
         q9.addTransition({inputSymbol: '1B0', writeSymbol: '100', direction: 'SRR', nextState: q9});
         q9.addTransition({inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q1});
+
+        //operation almost finished
+        q1.addTransition({inputSymbol: 'BBB', writeSymbol: 'BBB', direction: 'LLL', nextState: q10});
+        q10.addTransition({inputSymbol: 'X00', writeSymbol: 'X00', direction: 'LLL', nextState: q10});
+        q10.addTransition({inputSymbol: '100', writeSymbol: '100', direction: 'LLL', nextState: q10});
+        q10.addTransition({inputSymbol: '000', writeSymbol: '000', direction: 'LLL', nextState: q10});
+        q10.addTransition({inputSymbol: 'B00', writeSymbol: 'B00', direction: 'SLL', nextState: q10});
+        q10.addTransition({inputSymbol: 'BBB', writeSymbol: 'BBB', direction: 'RSS', nextState: q11});
+
+        // m is not negative
+        q11.addTransition({inputSymbol: '0BB', writeSymbol: '0BB', direction: 'LSS', nextState: q12});
+
+        // m is negative
+        q11.addTransition({inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q13});
+        q13.addTransition({inputSymbol: '0BB', writeSymbol: '0BB', direction: 'RSS', nextState: q13});
+        q13.addTransition({inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q14});
+        q14.addTransition({inputSymbol: 'XBB', writeSymbol: 'XB1', direction: 'RSS', nextState: q14});
+        q14.addTransition({inputSymbol: 'XB1', writeSymbol: 'XBB', direction: 'RSS', nextState: q14});
+        q14.addTransition({inputSymbol: 'BBB', writeSymbol: 'BBB', direction: 'SSS', nextState: q12});
 
         this.diagram = new Diagram([q0, q1, q2, q3], q0);
 
@@ -90,9 +120,14 @@ export class Exponentiation {
                     this.result = 0;
                     let tapeElement = this.tape_result.getHtmlElement()
                     let tapeChild = tapeElement.childNodes
+                    let isNegative = false;
                     for(let i=0; i<tapeChild.length; i++){
+                        if((<HTMLElement> tapeChild[i]).innerText == "1"){
+                            isNegative = true;
+                        }
                         this.result += (<HTMLElement> tapeChild[i]).innerText == "0" ? 1:0;
                     }
+                    isNegative ? this.result*=-1 : '';
                 }
                 this.stop();
             }

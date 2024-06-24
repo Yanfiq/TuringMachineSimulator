@@ -88,9 +88,14 @@ export class Addition {
                     this.result = 0;
                     let tapeElement = this.tape_result.getHtmlElement();
                     let tapeChild = tapeElement.childNodes;
+                    let isNegative = false;
                     for (let i = 0; i < tapeChild.length; i++) {
+                        if (tapeChild[i].innerText == "1") {
+                            isNegative = true;
+                        }
                         this.result += tapeChild[i].innerText == "0" ? 1 : 0;
                     }
+                    isNegative ? this.result *= -1 : '';
                 }
                 this.stop();
             }
