@@ -26,7 +26,7 @@ export class Exponentiation {
         q15.addTransition({ inputSymbol: '0BB', writeSymbol: '0BB', direction: 'RSS', nextState: q15 });
         q15.addTransition({ inputSymbol: '1BB', writeSymbol: '1BB', direction: 'RSS', nextState: q16 });
         q16.addTransition({ inputSymbol: 'BBB', writeSymbol: 'BBB', direction: 'SSS', nextState: q12 });
-        q16.addTransition({ inputSymbol: '0BB', writeSymbol: 'BBB', direction: 'SSS', nextState: q1 });
+        q16.addTransition({ inputSymbol: '0BB', writeSymbol: '0BB', direction: 'SSS', nextState: q1 });
         q16.addTransition({ inputSymbol: '1BB', writeSymbol: 'BBB', direction: 'SSS', nextState: q12 });
         q1.addTransition({ inputSymbol: 'XBB', writeSymbol: 'XBB', direction: 'RSS', nextState: q1 });
         q1.addTransition({ inputSymbol: '0BB', writeSymbol: 'XBB', direction: 'LSS', nextState: q2 });

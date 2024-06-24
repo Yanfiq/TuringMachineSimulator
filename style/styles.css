@@ -147,10 +147,12 @@ main {
     align-items: center;
     border-radius: 0.25rem;
     background-color: hsl(197, 100%, 50%);
+    font-weight: bold;
     border-color: hsl(197, 100%, 50%);
     border-width: 0.1rem;
     border-style: solid;
     margin: 0.15rem;
+    color: white;
 }
 
 .symbol-inactive {
@@ -163,6 +165,7 @@ main {
     border-radius: 0.25rem;
     background-color: transparent;
     border-color: hsl(197, 100%, 50%);
+    font-weight: bold;
     border-width: 0.1rem;
     border-style: solid;
     color: hsl(197, 100%, 50%);
